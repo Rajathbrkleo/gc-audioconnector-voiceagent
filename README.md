@@ -1,89 +1,148 @@
 # VoiceAgent Sample Implementation
 
+This repository started as a fork of [AudioConnectorBluePrint](https://github.com/GenesysCloudBlueprints/audioconnector-server-reference-implementation) and has been updated/refactored to serve as a showcase sample integration with Voice AI Agent platforms.
 
-This repository initially started as a 'Fork' to [AudioConnectorBluePrint](https://github.com/GenesysCloudBlueprints/audioconnector-server-reference-implementation) and updated/refactored it for Showcase Sample Integration with Voice AI Agent Platforms.
-### Purpose
-This repository contains a sample implementation for VoiceAgent based on AudioConnector Server. This can be used as a guide to help understand some of the basics of setting up an AudioConnector Server and how it can be used to develop an integration with VoiceAgent Platforms. 
-It is not intended for production purposes. Protocol documentation can be found on the [Genesys Developer Portal](https://developer.genesys.cloud/devapps/audiohook/).
+---
 
+## 🗭 Purpose
 
-## Project Setup & Installation
+This repository provides a sample implementation for a Voice Agent based on the AudioConnector Server. It is intended to help users understand the basics of setting up an AudioConnector Server and how to integrate it with Voice Agent platforms.
+
+> **Note:** This is not intended for production use. Protocol documentation is available on the [Genesys Developer Portal](https://developer.genesys.cloud/devapps/audiohook/).
+
+---
+
+## ⚙️ Project Setup & Installation
 
 ### Prerequisites
-- Node.js version **18 or higher** is required.
-- TypeScript is used for development.
-- `ts-node` is used for development-time execution.
+
+- Node.js **version 18 or higher**.
+- TypeScript for development.
+- `ts-node` for development-time execution.
 
 ### Available Scripts
-npm start - Starts the application using ts-node.
-npm run build - Cleans and builds the project.
-npm run clean - Removes all compiled files in dist/.
-npm test - Placeholder for future test implementation.
+
+```bash
+npm start         # Starts the application using ts-node
+npm run build     # Cleans and builds the project
+npm run clean     # Removes all compiled files in dist/
+npm test          # Placeholder for future test implementation
+```
 
 ### 📦 Notable Dependencies
 
-- express: Web server for handling HTTP requests.
-- websocket / ws: WebSocket servers and clients.
-- uuid: For generating unique IDs.
-- dotenv: Loads environment variables from a .env file.
-- axios: HTTP client for API requests.
-- lodash: Utility functions for data manipulation.
-- iso8601-duration: Parses ISO8601 time durations.
+- `express`: Web server for handling HTTP requests
+- `websocket`, `ws`: WebSocket servers and clients
+- `uuid`: Generates unique IDs
+- `dotenv`: Loads environment variables from a `.env` file
+- `axios`: HTTP client for API requests
+- `lodash`: Utility library for data manipulation
+- `iso8601-duration`: Parses ISO8601 duration strings
 
+---
 
-### Running the server
+## ▶️ Running the Server
 
-#### Requirements
-This implementation was written using NodeJS 18.16.0 as a target. If you are using a Node version manager, there is a [nvmrc](./.nvmrc) file that specifies this version.
+### Node Version
 
-#### Steps to run the server locally
-1) Run `npm install` in the root of the project.
-2) Run `npm run start` in the root of the project to start the server. The port can be adjusted from within the [environment](./.env) file.
+This project was written for Node.js `18.16.0`. If using a Node version manager, the project includes an [`.nvmrc`](./.nvmrc) file specifying this version.
 
+### Steps to Run Locally
 
-### Genesys Cloud Pre-requisites
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the server:
+   ```bash
+   npm run start
+   ```
+   You can configure the listening port via the [.env](./.env) file.
 
-- Setup Audio connector Integration in your Environment [AudioConnector](https://help.mypurecloud.com/articles/audio-connector-overview/)
+---
 
-- In the Architect Flow invoke the Call Audio Connector Block Pass all variables referred to in the Prompt - including Prompt Name
-![Call Audio Connector](./AudioConnectorIntegration.jpg)
+## 🎧 Genesys Cloud Prerequisites
 
-The above screenshot assume we have NewBookingPrompt and corresponding Toolset created under the prompts folder (see below)
-### Setting up Voice Agent Prompt
-Create a [Prompt](./src/prompts/NewBookingPrompt.md) and Corresponding [Tool](./src/prompts/NewBookingTools.json)
+- Configure the Audio Connector integration in your Genesys Cloud environment: [AudioConnector Documentation](https://help.mypurecloud.com/articles/audio-connector-overview/)
 
-
-### External Dependencies
-- Setup an OpenAI API Key/Subscription
-- Voice Agent Integration is with [Open AI Realtime API](https://platform.openai.com/docs/api-reference/realtime)
-- Setup NGrok if require testing from local PC
-
-
-
-### Development
-- typescript, ts-node: TypeScript tooling for compiling and executing code.
-- rimraf: Cross-platform rm -rf equivalent for cleaning directories.
-- @types/*: Type definitions for Express, Node.js, WebSocket, and other libraries.
-
-
-#### Main Classes
-The [Session](./src/websocket/session.ts) class contains methods and logic that handle communicating with the AudioConnector Client (which is Genesys Cloud).
-
-
-The most important aspect in the Session class is to review the how Audio is sent to Genesys Cloud In order to prevent Rate Limit violations.
-Audio Connector requires Audio to be sent at the Sampling Rate of the Audio Format of the Session
-When the Voice Agent Platform streams audio faster then the Sampling Rate - the Audio Connector Buffers the Audio.
-
-The session object has an instance of 
-The [VoiceAIAgentBaseClass](./src/services/voice-aiagent-base.ts) is the base class for all VoiceAI Agent Platform - which is the base class for all VoiceAI Agent Platforms.
-Currently we have 2 sample implementations
-- [OpenAIRealTime](./src/services/open-ai.ts)
-- [DeepgramAIVoiceAgent](./src/services/deepgram.ts)
-
-Any new VoiceAI Agent API Platform we need to integrate with must be inherited from the VoiceAIAgentBaseClass and we need to also update the [VoiceAIAgentFactory](./src/services/voice-aiagent-factory.ts) to instantiate a new VoiceAIAgentBaseClass from name.
+- In your **Architect Flow**, invoke the **Call Audio Connector** block and pass all required variables referenced in the prompt (including prompt name):
 
 
 
+This example assumes a `NewBookingPrompt` and corresponding toolset have been created under the `prompts` folder (see below).
 
+---
 
-The [SecretService](./src/services/secret-service.ts) class is responsible for looking up the secret from a given API Key used during the initial authentication process. A fake implementation has been provided, and will need to be replaced to lookup secrets with whatever service they are stored in.
+## 🗣️ Setting Up Voice Agent Prompt
+
+- Create the [Prompt](./src/prompts/NewBookingPrompt.md)
+- Define the corresponding [Tool](./src/prompts/NewBookingTools.json)
+
+---
+
+## 🌐 External Dependencies
+
+- OpenAI API key/subscription for Voice Agent integration
+- Voice Agent is integrated via the [OpenAI Realtime API](https://platform.openai.com/docs/api-reference/realtime)
+- [NGrok](https://ngrok.com/) if testing locally
+
+---
+
+## 💠 Development Notes
+
+- `typescript`, `ts-node`: Tooling for compiling and executing TypeScript
+- `rimraf`: Cross-platform `rm -rf` equivalent for cleaning directories
+- `@types/*`: Type definitions for Express, Node.js, WebSocket, etc.
+
+---
+
+## 🧹 Core Classes
+
+### [`Session`](./src/websocket/session.ts)
+
+Handles communication with the AudioConnector Client (Genesys Cloud).\
+**Important:** It regulates how audio is sent to Genesys Cloud to prevent rate-limit violations.
+
+> Audio must be streamed at the sampling rate defined by the session's audio format.\
+> If the Voice Agent streams audio faster than this rate, the Audio Connector buffers the audio.
+
+### [`VoiceAIAgentBaseClass`](./src/services/voice-aiagent-base.ts)
+
+Base class for all Voice AI Agent platforms. New integrations should inherit from this class.
+
+#### Sample Implementations:
+
+- [`OpenAIRealTime`](./src/services/open-ai.ts)
+- [`DeepgramAIVoiceAgent`](./src/services/deepgram.ts)
+
+To integrate a new Voice AI platform:
+
+- Inherit from `VoiceAIAgentBaseClass`
+- Update the [VoiceAIAgentFactory](./src/services/voice-aiagent-factory.ts) to instantiate the new class.
+
+### [`SecretService`](./src/services/secret-service.ts)
+
+Looks up secrets (like API keys) during initial authentication.
+
+> A mock implementation is included—replace with your preferred secret management system.
+
+---
+
+## 🐳 Docker Container
+
+Two Dockerfiles are provided for building container images:
+
+1. `Dockerfile`: For cloud-hosted environments like AWS EKS or Azure Container Services
+2. `Dockerfile.proxy`: For local hosting with NGrok tunneling to the Audio Connector
+
+### 🔧 Run Docker Container Locally with NGrok
+
+1. Install Docker and ensure the daemon is running.
+2. Build and run the container:
+
+```bash
+docker build -f Dockerfile.proxy -t audio-connector-tunnel .
+docker run --dns 8.8.8.8 --env-file .env -p 8081:8081 audio-connector-tunnel
+```
+
+> This assumes the Audio Connector listens on port `8081`. DNS is set to Google DNS (8.8.8.8).
