@@ -19,14 +19,14 @@ npm run clean - Removes all compiled files in dist/.
 npm test - Placeholder for future test implementation.
 
 ### 📦 Notable Dependencies
--Runtime
---express: Web server for handling HTTP requests.
---websocket / ws: WebSocket servers and clients.
---uuid: For generating unique IDs.
---dotenv: Loads environment variables from a .env file.
---axios: HTTP client for API requests.
---lodash: Utility functions for data manipulation.
---iso8601-duration: Parses ISO8601 time durations.
+- Runtime
+-- express: Web server for handling HTTP requests.
+-- websocket / ws: WebSocket servers and clients.
+-- uuid: For generating unique IDs.
+-- dotenv: Loads environment variables from a .env file.
+-- axios: HTTP client for API requests.
+-- lodash: Utility functions for data manipulation.
+-- iso8601-duration: Parses ISO8601 time durations.
 
 
 ### Running the server
