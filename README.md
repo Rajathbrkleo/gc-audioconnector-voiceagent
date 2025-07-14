@@ -45,6 +45,7 @@ This implementation was written using NodeJS 18.16.0 as a target. If you are usi
 
 - In the Architect Flow invoke the Call Audio Connector Block Pass all variables referred to in the Prompt - including Prompt Name
 ![Call Audio Connector](./AudioConnectorIntegration.jpg)
+
 The above screenshot assume we have NewBookingPrompt and corresponding Toolset created under the prompts folder (see below)
 ### Setting up Voice Agent Prompt
 Create a [Prompt](./src/prompts/NewBookingPrompt.md) and Corresponding [Tool](./src/prompts/NewBookingTools.json)
